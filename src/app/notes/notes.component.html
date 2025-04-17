@@ -1,0 +1,51 @@
+
+ <button (click)="startNewNote()">➕ Nouvelle note</button>
+
+
+<div *ngIf="showForm">
+
+  <h3>{{ editingNote ? 'Modifier la note' : 'Nouvelle note' }}</h3>
+  <form (ngSubmit)="submitNote()">
+    <label>
+      Titre :
+      <input [(ngModel)]="newNoteTitle" name="title" required />
+    </label>
+    <br />
+    <label>
+      Contenu :
+      <textarea [(ngModel)]="newNoteContent" name="content" required></textarea>
+    </label>
+    <br />
+    <label>
+      Tags :
+      <select multiple [(ngModel)]="selectedTagIds" name="tagIds">
+        <option *ngFor="let tag of tags" [value]="tag.id">{{ tag.name }}</option>
+      </select>
+    </label>
+    <br />
+    <button type="submit">💾 Enregistrer</button>
+    <button type="button" (click)="clearForm()">❌ Annuler</button>
+  </form>
+</div>
+
+<hr />
+
+<!-- Liste des notes -->
+<div *ngFor="let note of notes">
+  <h4>{{ note.title }}</h4>
+  <p>{{ note.content }}</p>
+  <small>
+    Tags :
+    <span *ngFor="let tagId of note.tagIds">
+      [{{ getTagName(tagId) }}]
+    </span>
+  </small>
+  <br />
+  <button (click)="openEdit(note)">✏️ Modifier</button>
+  <button (click)="deleteNote(note.id)">🗑️ Supprimer</button>
+  <hr />
+</div>
+
+<div *ngIf="notes.length === 0">
+  <p>Aucune note disponible.</p>
+</div>

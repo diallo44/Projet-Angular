@@ -1,0 +1,31 @@
+
+<button (click)="editing = { id: 0, name: '', color: '#000000' }">Ajouter une nouvelle étiquette</button>
+
+
+
+<div *ngIf="editing">
+  <h3>{{ editing.id === 0 ? 'Ajouter une étiquette' : 'Modifier l’étiquette' }}</h3>
+  <form (ngSubmit)="saveTag()">
+    <label>
+      Nom :
+      <input type="text" [(ngModel)]="editing.name" name="name" required />
+    </label>
+    <label>
+      Couleur :
+      <input type="color" [(ngModel)]="editing.color" name="color" />
+    </label>
+    <button type="submit">Valider</button>
+    <button type="button" (click)="cancelEditing()">Annuler</button>
+  </form>
+</div>
+
+<!-- Liste des tags -->
+<h2>Liste des étiquettes</h2>
+<ul>
+  <li *ngFor="let tag of tags; let i = index">
+    <app-tag [id]="tag.id" [name]="tag.name" [color]="tag.color"></app-tag>
+    <button (click)="openTagEditor(tag)">Modifier</button>
+    <button (click)="deleteTag(tag)">Supprimer</button>
+  </li>
+  <li *ngIf="tags.length === 0">Aucune étiquette !</li>
+</ul>
